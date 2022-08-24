@@ -1,8 +1,10 @@
 package Dymura_hw5.Figures;
 
-public class Square extends Figure implements Basic {
+public class Square implements Basic {
+    private double a;
+
     public Square(double a) {
-        super(a);
+        this.a = a;
     }
 
     @Override
