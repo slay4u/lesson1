@@ -1,6 +1,6 @@
 package Dymura_hw5.Figures;
 
-public class Triangle implements Basic {
+public class Triangle implements Figure {
     private double a, b, c;
 
     public Triangle(double a, double b, double c) {

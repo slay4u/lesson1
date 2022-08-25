@@ -1,6 +1,6 @@
 package Dymura_hw5.Figures;
 
-public class Square implements Basic {
+public class Square implements Figure {
     private double a;
 
     public Square(double a) {
