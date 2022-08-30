@@ -1,6 +1,6 @@
 package Dymura_hw5.Figures;
 
-public class Circle implements Basic {
+public class Circle implements Figure {
     private double r;
 
     public Circle(double r) {
