@@ -1,0 +1,4 @@
+FILE:log.txt
+LEVEL:DEBUG
+MAX-SIZE:125
+FORMAT:15.09.22 12:48 DEBUG Message: Debug comment.
