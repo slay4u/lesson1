@@ -1,0 +1,3 @@
+15.09.22 01:48 DEBUG Message: Debug comment.
+15.09.22 01:48 INFO Message: Info comment.
+15.09.22 01:48 INFO Message: Test
