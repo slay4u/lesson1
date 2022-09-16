@@ -8,6 +8,7 @@ public class FileLoggerConfigurationLoader {
     protected byte maxFileSize;
     protected LoggingLevel currentLevel;
     protected String newFile;
+    protected String format;
 
     public FileLoggerConfiguration load(String configFile) {
         try (FileReader fr = new FileReader(configFile);
@@ -23,12 +24,12 @@ public class FileLoggerConfigurationLoader {
                     String size = str.split(":")[1];
                     maxFileSize = Byte.parseByte(size);
                 } else if (str.contains("FORMAT")) {
-
+                    format = str.split(":")[1];
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new FileLoggerConfiguration(currentLevel, maxFileSize, newFile);
+        return new FileLoggerConfiguration(currentLevel, maxFileSize, newFile, format);
     }
 }
