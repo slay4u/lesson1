@@ -1,12 +1,14 @@
 package Dymura_hw6;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+
+import static Dymura_hw6.FileLoggerConfiguration.dateTimeFormatter;
 
 public class FileLogger {
     protected OutputStream outputStream;
+    protected String fileName;
 
     public FileLogger(FileLoggerConfiguration fileLoggerConfiguration) {
         try {
@@ -34,6 +36,11 @@ public class FileLogger {
     public void writeFileLog(String aboutLog) {
         try {
             if (FileLoggerConfiguration.file.length() >= FileLoggerConfiguration.maxSize) {
+//                File f = new File("src/Dymura_hw6/" + fileName);
+//                fileName = LocalDateTime.now().format(dateTimeFormatter) + ".txt";
+//                if (f.createNewFile()) {
+//                    System.out.println("File was created.");
+//                }
                 throw new FileMaxSizeReachedException("MaxFileSize: " + FileLoggerConfiguration.maxSize +
                         "\tCurrentFileSize: " + FileLoggerConfiguration.file.length() + "\tFilePath: " +
                         FileLoggerConfiguration.file);

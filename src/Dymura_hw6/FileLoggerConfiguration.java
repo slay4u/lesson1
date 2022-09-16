@@ -11,6 +11,13 @@ public class FileLoggerConfiguration {
     protected LocalDateTime localDateTime;
     protected static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy hh:mm");
 
+    public FileLoggerConfiguration(LoggingLevel loggingLevel, byte maxSize, String file1, String format) {
+        file = new File("src/Dymura_hw6/" + file1);
+        FileLoggerConfiguration.loggingLevel = loggingLevel;
+        FileLoggerConfiguration.maxSize = maxSize;
+        format = String.format("%s %s Message:", localDateTime, loggingLevel);
+    }
+
     public FileLoggerConfiguration(LoggingLevel loggingLevel, byte maxSize, String file1) {
         file = new File("src/Dymura_hw6/" + file1);
         FileLoggerConfiguration.loggingLevel = loggingLevel;
