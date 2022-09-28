@@ -5,59 +5,43 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class FileLogger {
+public class FileLogger implements LogWriter{
     private OutputStream outputStream;
-    private File file1;
     private final FileLoggerConfiguration fileLoggerConfiguration;
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy-hh.mm.ss");
-    private LocalDateTime localDateTime;
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy-hh.mm.ss.SSS");
 
     public FileLogger(FileLoggerConfiguration fileLoggerConfiguration) {
         this.fileLoggerConfiguration = fileLoggerConfiguration;
     }
 
-    public void debug(String message) {
+    @Override
+    public void debug(String message) throws IOException {
         if (fileLoggerConfiguration.getLoggingLevel().equals(LoggingLevel.DEBUG)) {
-            try {
-                outputStream = new FileOutputStream(fileLoggerConfiguration.getFile(), true);
-                String logging = FileLoggerConfiguration.format(message, LoggingLevel.DEBUG);
-                writeFileLog(logging);
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            outputStream = new FileOutputStream(fileLoggerConfiguration.getFile(), true);
+            String logging = FileLoggerConfiguration.format(message, LoggingLevel.DEBUG);
+            writeFileLog(logging);
+            outputStream.close();
         }
     }
 
-    public void info(String message) {
+    @Override
+    public void info(String message) throws IOException {
         if (fileLoggerConfiguration.getLoggingLevel().equals(LoggingLevel.DEBUG) ||
         fileLoggerConfiguration.getLoggingLevel().equals(LoggingLevel.INFO)) {
-            try {
-                outputStream = new FileOutputStream(fileLoggerConfiguration.getFile(), true);
-                String logging = FileLoggerConfiguration.format(message, LoggingLevel.INFO);
-                writeFileLog(logging);
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            outputStream = new FileOutputStream(fileLoggerConfiguration.getFile(), true);
+            String logging = FileLoggerConfiguration.format(message, LoggingLevel.INFO);
+            writeFileLog(logging);
+            outputStream.close();
         }
     }
 
-    public void writeFileLog(String aboutLog) {
+    public void writeFileLog(String aboutLog) throws IOException {
         if (fileLoggerConfiguration.getFile().length() >= fileLoggerConfiguration.getMaxSize()) {
-            file1 = create(fileLoggerConfiguration);
-            try {
-                outputStream = new FileOutputStream(file1, true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            File file1 = create(fileLoggerConfiguration);
+            outputStream = new FileOutputStream(file1, true);
         }
-        try {
-            outputStream.write(aboutLog.getBytes(StandardCharsets.UTF_8));
-            outputStream.write("\n".getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        outputStream.write(aboutLog.getBytes(StandardCharsets.UTF_8));
+        outputStream.write("\n".getBytes());
     }
 
     public File create(FileLoggerConfiguration config) {
