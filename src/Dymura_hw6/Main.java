@@ -1,7 +1,9 @@
 package Dymura_hw6;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         FileLoggerConfiguration fileLoggerConfiguration = new FileLoggerConfiguration(LoggingLevel.DEBUG, (byte) 125,
                 "log.txt");
         FileLogger fileLogger = new FileLogger(fileLoggerConfiguration);

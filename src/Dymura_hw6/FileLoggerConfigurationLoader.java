@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class FileLoggerConfigurationLoader {
+public class FileLoggerConfigurationLoader implements ConfigLoader{
     protected byte maxFileSize;
     protected LoggingLevel currentLevel;
     protected String newFile;
     protected String format;
 
+    @Override
     public FileLoggerConfiguration load(String configFile) {
         try (FileReader fr = new FileReader(configFile);
              BufferedReader br = new BufferedReader(fr)) {
