@@ -16,8 +16,14 @@ public class Main {
         System.out.println(t);
 
         PetrolStation station = new PetrolStation();
-        station.doRefuel(500.0);
+        station.doRefuel(50.0);
+        station.doRefuel(100.0);
+        station.doRefuel(50.0);
+        station.doRefuel(50.0);
         station.doRefuel(10.0);
+        station.doRefuel(50.0);
+        station.doRefuel(100.0);
         station.doRefuel(500.0);
+        station.doRefuel(100.0);
     }
 }
