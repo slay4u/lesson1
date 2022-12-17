@@ -9,31 +9,25 @@ public class ThreadSafeList<T> {
     private List<T> list = new ArrayList<>();
 
     T get(int index) {
-        synchronized (lock) {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
-            T i = list.get(index);
-            lock.unlock();
-            return i;
-        }
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        T i = list.get(index);
+        lock.unlock();
+        return i;
     }
 
     void add(T t) {
-        synchronized (lock) {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
-            list.add(t);
-            lock.unlock();
-        }
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        list.add(t);
+        lock.unlock();
     }
 
     void remove(T t) {
-        synchronized (lock) {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
-            list.remove(t);
-            lock.unlock();
-        }
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        list.remove(t);
+        lock.unlock();
     }
 
     @Override
