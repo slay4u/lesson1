@@ -9,7 +9,6 @@ public class ThreadSafeList<T> {
     private List<T> list = new ArrayList<>();
 
     T get(int index) {
-        final ReentrantLock lock = this.lock;
         lock.lock();
         T i = list.get(index);
         lock.unlock();
@@ -17,14 +16,12 @@ public class ThreadSafeList<T> {
     }
 
     void add(T t) {
-        final ReentrantLock lock = this.lock;
         lock.lock();
         list.add(t);
         lock.unlock();
     }
 
     void remove(T t) {
-        final ReentrantLock lock = this.lock;
         lock.lock();
         list.remove(t);
         lock.unlock();
