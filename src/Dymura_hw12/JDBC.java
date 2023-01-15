@@ -24,11 +24,11 @@ public class JDBC {
 
     static List<Books> getAllBooks() throws SQLException {
         List<Books> books = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            String SQL = " select books.Title as BookTitle, authors.Name as AuthorName, " +
-                    " authors.LastName as AuthorLastName from books " +
-                    " left join authors on authors.id = books.AuthorId; ";
-            ResultSet resultSet = statement.executeQuery(SQL);
+        String SQL = " select books.Title as BookTitle, authors.Name as AuthorName, " +
+                " authors.LastName as AuthorLastName from books " +
+                " left join authors on authors.id = books.AuthorId; ";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL)) {
             while (resultSet.next()) {
                 final String title = resultSet.getString("BookTitle");
                 final String name = resultSet.getString("AuthorName");
@@ -44,10 +44,10 @@ public class JDBC {
 
     static List<Books> getAllBooksWithoutAuthors() throws SQLException {
         List<Books> books = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            String SQL = " select books.Title as BookTitle from books " +
-                    " where books.AuthorId is null; ";
-            ResultSet resultSet = statement.executeQuery(SQL);
+        String SQL = " select books.Title as BookTitle from books " +
+                " where books.AuthorId is null; ";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL)) {
             while (resultSet.next()) {
                 final String title = resultSet.getString("BookTitle");
                 Books books1 = new Books(title);
@@ -59,12 +59,12 @@ public class JDBC {
 
     static Map<Authors, Integer> getAllAuthorsWithCountOfTheirBooks() throws SQLException {
         Map<Authors, Integer> map = new HashMap<>();
-        try (Statement statement = connection.createStatement()) {
-            String SQL = " select authors.Name as AuthorName, authors.LastName as AuthorLastName, " +
-                    " count(books.id) as BookCount from authors " +
-                    " join books on books.AuthorId = authors.id " +
-                    " group by books.AuthorId; ";
-            ResultSet resultSet = statement.executeQuery(SQL);
+        String SQL = " select authors.Name as AuthorName, authors.LastName as AuthorLastName, " +
+                " count(books.id) as BookCount from authors " +
+                " join books on books.AuthorId = authors.id " +
+                " group by books.AuthorId; ";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL)) {
             while (resultSet.next()) {
                 final String name = resultSet.getString("AuthorName");
                 final String lastName = resultSet.getString("AuthorLastName");
@@ -78,12 +78,12 @@ public class JDBC {
 
     static Map<Authors, Integer> getAllAuthorsWithMoreThanTwoBooks() throws SQLException {
         Map<Authors, Integer> map = new HashMap<>();
-        try (Statement statement = connection.createStatement()) {
-            String SQL = " select authors.Name as AuthorName, authors.LastName as AuthorLastName, " +
-                    " count(books.id) as BookCount from authors " +
-                    " join books on books.AuthorId = authors.id " +
-                    " group by books.AuthorId having BookCount > 3; ";
-            ResultSet resultSet = statement.executeQuery(SQL);
+        String SQL = " select authors.Name as AuthorName, authors.LastName as AuthorLastName, " +
+                " count(books.id) as BookCount from authors " +
+                " join books on books.AuthorId = authors.id " +
+                " group by books.AuthorId having BookCount > 3; ";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL)) {
             while (resultSet.next()) {
                 final String name = resultSet.getString("AuthorName");
                 final String lastName = resultSet.getString("AuthorLastName");
