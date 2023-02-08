@@ -8,36 +8,37 @@ import java.util.stream.Stream;
 public class TestRunner {
     static void start(Class<?> clazz) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException, InstantiationException {
         Method[] allMethods = clazz.getDeclaredMethods();
-        List<Method> oneMethod = new ArrayList<>();
+        Method before = null;
+        int beforeCount = 0;
+        Method after = null;
+        int afterCount = 0;
         Map<Method, Integer> mapTest = new HashMap<>();
         for (Method m : allMethods) {
             if (m.isAnnotationPresent(BeforeSuite.class)) {
-                oneMethod.add(m);
+                before = m;
+                beforeCount++;
             } else if (m.isAnnotationPresent(Test.class)) {
                 if((m.getAnnotation(Test.class).priority() > 0) && (m.getAnnotation(Test.class).priority() < 11)) {
                     mapTest.put(m, m.getAnnotation(Test.class).priority());
                 } else throw new RuntimeException("Priority has been set wrong.");
             } else if (m.isAnnotationPresent(AfterSuite.class)) {
-                oneMethod.add(m);
+                after = m;
+                afterCount++;
             }
         }
-        if ((oneMethod.size()) > 2 || (Objects.equals(Arrays.toString(oneMethod.get(0).getDeclaredAnnotations()), Arrays.toString(oneMethod.get(1).getDeclaredAnnotations())))) {
+        if (beforeCount > 1 || afterCount > 1) {
             throw new RuntimeException("More than 1 annotation used of each AfterSuite|BeforeSuite class.");
         }
-        for (Method m : oneMethod) {
-            if (m.isAnnotationPresent(BeforeSuite.class)) {
-                m.invoke(clazz.newInstance());
-            }
+        if (before != null) {
+            before.invoke(clazz.newInstance());
         }
         mapTest = sortByValue(mapTest);
         for (Map.Entry<Method, Integer> m : mapTest.entrySet()) {
             System.out.print("Priority: " + m.getKey().getAnnotation(Test.class).priority() + " ");
             m.getKey().invoke(clazz.newInstance());
         }
-        for (Method m : oneMethod) {
-            if (m.isAnnotationPresent(AfterSuite.class)) {
-                m.invoke(clazz.newInstance());
-            }
+        if (after != null) {
+            after.invoke(clazz.newInstance());
         }
     }
 
